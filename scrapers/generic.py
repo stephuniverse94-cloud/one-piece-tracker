@@ -42,11 +42,28 @@ OUT_OF_STOCK_PHRASES = [
 ZERO_STOCK_RE = re.compile(r"\b(?:op\s*voorraad|voorraad|stock|available)\s*:?\s*0\b")
 
 
+OUT_OF_STOCK_CLASS_MARKERS = ["outofstock", "out-of-stock", "sold-out", "soldout"]
+
+
 def _looks_out_of_stock(text: str) -> bool:
     low = text.lower()
     if any(phrase in low for phrase in OUT_OF_STOCK_PHRASES):
         return True
     return bool(ZERO_STOCK_RE.search(low))
+
+
+def _has_out_of_stock_class(el) -> bool:
+    """Sommige shops (o.a. WooCommerce) markeren uitverkocht alleen met een
+    CSS-class op de productkaart, zonder duidelijk leesbare tekst in de
+    lijstweergave (bv. class="product outofstock")."""
+    classes = " ".join(el.get("class", [])).lower()
+    if any(m in classes for m in OUT_OF_STOCK_CLASS_MARKERS):
+        return True
+    for child in el.find_all(True):
+        classes = " ".join(child.get("class", [])).lower()
+        if any(m in classes for m in OUT_OF_STOCK_CLASS_MARKERS):
+            return True
+    return False
 
 PRICE_TAIL_RE = re.compile(r"€?\s?\d{1,4}[.,]\d{2}.*$")
 
@@ -93,6 +110,16 @@ def _price_leaf_elements(soup: BeautifulSoup, max_text_len: int = 40, max_descen
     return innermost
 
 
+def _pick_best_link(links):
+    """Kies bij voorkeur een 'schone' productlink i.p.v. een deep-link met
+    zoek/scroll-parameters (zoals '?scrollToProduct=...&Category=...', dat
+    zag ik bij Wix-shops op paginanummer 2+ i.p.v. de losse /product-page/-URL)."""
+    def is_deeplink(href):
+        return "scrollToProduct" in href or "?Category=" in href or href.startswith("?")
+    clean = [l for l in links if not is_deeplink(l["href"])]
+    return clean[0] if clean else links[0]
+
+
 def _find_card_root(price_el, max_up: int = 9):
     """Loop vanaf een prijs-element omhoog in de boom tot we een voorouder
     vinden met een link + genoeg tekst — dat is vrijwel altijd de kaart/rij
@@ -102,14 +129,27 @@ def _find_card_root(price_el, max_up: int = 9):
         if node.parent is None:
             break
         node = node.parent
-        link = node.find("a", href=True)
-        if not link:
+        links = node.find_all("a", href=True)
+        if not links:
             continue
+        link = _pick_best_link(links)
         link_text = link.get_text(" ", strip=True)
         heading = node.find(["h1", "h2", "h3", "h4", "h5"])
         if len(link_text) > 3 or heading:
             return node, link
     return None, None
+
+
+def _stock_check_text(card):
+    """Sommige shops (o.a. Wix) tonen 'Out of Stock' als apart tekstblok NÁ
+    de titel/prijs-link, buiten de kleinst mogelijke 'kaart' die we net
+    gevonden hebben. We kijken daarom ook naar de eerstvolgende buurelementen
+    — maar NIET naar de volledige parent, want die kan ook het BUURPRODUCT
+    bevatten (zou een vals-uitverkocht-signaal kunnen geven)."""
+    parts = [card.get_text(" ", strip=True)]
+    for sib in card.find_next_siblings(limit=2):
+        parts.append(sib.get_text(" ", strip=True))
+    return " ".join(parts)
 
 
 def _extract_via_product_classes(soup: BeautifulSoup, base_url: str) -> list[dict]:
@@ -126,8 +166,7 @@ def _extract_via_product_classes(soup: BeautifulSoup, base_url: str) -> list[dic
         if card is None:
             continue
 
-        card_text = card.get_text(" ", strip=True)
-        in_stock = not _looks_out_of_stock(card_text)
+        in_stock = not _looks_out_of_stock(_stock_check_text(card)) and not _has_out_of_stock_class(card)
 
         title = ""
         heading = card.find(["h1", "h2", "h3", "h4", "h5"])
@@ -156,7 +195,7 @@ def _nearby_price(link, max_up: int = 4):
     text = link.get_text(" ", strip=True)
     price = parse_price(text)
     if price is not None:
-        return price, text
+        return price, text, link
     node = link
     for _ in range(max_up):
         if node.parent is None:
@@ -168,8 +207,8 @@ def _nearby_price(link, max_up: int = 4):
         node_text = node.get_text(" ", strip=True)
         price = parse_price(node_text)
         if price is not None:
-            return price, node_text
-    return None, text
+            return price, node_text, node
+    return None, text, link
 
 
 def _extract_via_links_fallback(soup: BeautifulSoup, base_url: str) -> list[dict]:
@@ -179,10 +218,15 @@ def _extract_via_links_fallback(soup: BeautifulSoup, base_url: str) -> list[dict
         text = link.get_text(" ", strip=True)
         if len(text) < 6:
             continue
-        price, context_text = _nearby_price(link)
+        if "scrollToProduct" in link["href"] or "?Category=" in link["href"]:
+            continue  # deep-link naar een ander punt op de pagina, geen echte productlink
+        price, context_text, node = _nearby_price(link)
         if price is None:
             continue
-        in_stock = not _looks_out_of_stock(context_text)
+        in_stock = (
+            not _looks_out_of_stock(_stock_check_text(node))
+            and not _has_out_of_stock_class(node)
+        )
         title = _clean_extracted_title(text)
         if len(title) < 4:
             continue
