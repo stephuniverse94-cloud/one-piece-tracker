@@ -1,0 +1,45 @@
+name: Check One Piece TCG prices
+
+on:
+  schedule:
+    # Elke 30 minuten. GitHub Actions cron kan een paar minuten vertraging
+    # hebben tijdens drukte — dat is normaal en geen probleem hiervoor.
+    - cron: "*/30 * * * *"
+  workflow_dispatch: {}   # handig knopje om 'm ook handmatig te starten
+
+# Voorkomt dat 2 runs tegelijk state.json proberen weg te schrijven
+concurrency:
+  group: price-check
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # nodig om state.json terug te committen
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Installeer dependencies
+        run: pip install -r requirements.txt
+
+      - name: Check prijzen
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: python main.py
+
+      - name: Bewaar state.json
+        run: |
+          if [ -n "$(git status --porcelain state.json)" ]; then
+            git config user.name "price-tracker-bot"
+            git config user.email "actions@users.noreply.github.com"
+            git add state.json
+            git commit -m "Update state [skip ci]"
+            git push
+          else
+            echo "state.json ongewijzigd, niks te committen."
+          fi
