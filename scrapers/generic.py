@@ -197,6 +197,7 @@ def _extract_via_links_fallback(soup: BeautifulSoup, base_url: str) -> list[dict
 
 MAX_PAGES = 5  # de meeste shops hebben maar 1 pagina One Piece-producten; we
                # stoppen vanzelf zodra een pagina niks nieuws oplevert.
+PAGINATION_MIN_RESULTS = 20  # onder dit aantal op pagina 1 proberen we geen pagina 2
 
 
 def _fetch_page(session, url: str, shop_name: str):
@@ -255,6 +256,13 @@ def scrape(shop: dict) -> list[dict]:
             if len(new_results) < len(page_results) and page > 1:
                 # gedeeltelijke overlap met de vorige pagina is ook een teken
                 # dat we aan het einde van de echte resultaten zitten
+                break
+
+            # Pagina 1 met maar een handjevol producten wijst er vrijwel
+            # altijd op dat dit alles is wat de shop heeft — dan is een 2e
+            # pagina proberen alleen maar een onnodig extra verzoek (en
+            # kan bij sommige shops zelfs bijdragen aan bot-detectie).
+            if page == 1 and len(page_results) < PAGINATION_MIN_RESULTS:
                 break
 
         if not got_any_page:
