@@ -104,6 +104,7 @@ def run(target_shop_id: str | None = None, dry_run: bool = False, status: bool =
 
         total_products_seen += len(products)
         stats = shop_match_stats.setdefault(shop["name"], {"matched": 0, "in_stock": 0})
+        sanity_rejected = 0
 
         for product in products:
             category, watch_item = classify_and_match(
@@ -116,10 +117,8 @@ def run(target_shop_id: str | None = None, dry_run: bool = False, status: bool =
 
             lo, hi = config.PRICE_SANITY_RANGES[category]
             if not (lo <= product["price"] <= hi):
-                print(f"  [!] {shop['name']}: '{product['title']}' matcht als {category} "
-                      f"maar kost €{product['price']:.2f} — buiten het realistische bereik "
-                      f"(€{lo:.0f}-€{hi:.0f}), waarschijnlijk een verkeerde match. Genegeerd.")
-                continue
+                sanity_rejected += 1
+                continue  # buiten realistisch bereik -> vermoedelijk verkeerde match, genegeerd
 
             code_label = _code_label_for(category, watch_item)
             in_stock_now = product.get("in_stock", True)
@@ -172,8 +171,9 @@ def run(target_shop_id: str | None = None, dry_run: bool = False, status: bool =
                 state.record_alert(st, key, product["price"])
                 hit["_is_new_alert"] = True
 
+        rejected_note = f", {sanity_rejected} genegeerd (onrealistische prijs)" if sanity_rejected else ""
         print(f"  -> {len(products)} producten gezien, "
-              f"{sum(1 for h in all_hits if h['shop'] == shop['name'])} match(es) onder de grens")
+              f"{sum(1 for h in all_hits if h['shop'] == shop['name'])} match(es) onder de grens{rejected_note}")
 
     if status:
         _print_status(status_rows)
