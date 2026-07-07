@@ -28,7 +28,14 @@ def scrape(shop: dict) -> list[dict]:
         seen_handles = set()
 
         for page in range(1, MAX_PAGES + 1):
-            json_url = collection_url.rstrip("/") + f"/products.json?limit=250&page={page}"
+            # LET OP: géén "&page=1" op de eerste pagina — sommige Shopify-
+            # winkels geven dan een lege/ongeldige response terug (het
+            # page-queryparam op products.json lijkt daar afgeschaft voor
+            # pagina 1, maar werkt wel prima vanaf pagina 2). Dus: pagina 1
+            # zonder page-param (precies zoals de altijd-werkende basisvorm),
+            # pagina 2+ gewoon met &page=N.
+            products_json_base = collection_url.rstrip("/") + "/products.json?limit=250"
+            json_url = products_json_base if page == 1 else f"{products_json_base}&page={page}"
             try:
                 resp = get_with_retry(session, json_url, timeout=config.REQUEST_TIMEOUT)
                 resp.raise_for_status()
