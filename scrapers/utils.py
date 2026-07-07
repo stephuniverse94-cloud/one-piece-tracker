@@ -19,7 +19,13 @@ def get_session() -> requests.Session:
                 "User-Agent": config.USER_AGENT,
                 "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
                 "Accept-Language": "nl-NL,nl;q=0.9,en;q=0.8",
-                "Accept-Encoding": "gzip, deflate, br",
+                # LET OP: bewust GEEN "br" (Brotli) hier — als een server toch
+                # Brotli-gecomprimeerde data terugstuurt terwijl het brotli-
+                # pakket niet geïnstalleerd is, levert dat onleesbare data op
+                # (en bij Shopify's products.json-endpoint concreet een
+                # "Expecting value" JSON-parsefout). gzip/deflate werkt altijd
+                # out-of-the-box met requests, dus daar houden we het bij.
+                "Accept-Encoding": "gzip, deflate",
                 "Connection": "keep-alive",
                 "Upgrade-Insecure-Requests": "1",
                 "Sec-Fetch-Dest": "document",
