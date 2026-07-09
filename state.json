@@ -1,11 +1,6 @@
 {
   "alerted": {
-    "intertoys|double_pack|Vol. 11": 14.99,
-    "intertoys|booster_pack|OP-12": 6.99,
-    "intertoys|booster_pack|OP-11": 6.99,
     "intertoys|booster_pack|OP-16": 6.99,
-    "intertoys|double_pack|Vol. 12": 14.99,
-    "intertoys|double_pack|Vol. 10": 14.99,
     "intertoys|booster_pack|OP-15": 6.99,
     "dracoon|booster_box|OP-17": 149.99,
     "rarecards|booster_pack|OP-14": 8.45,
@@ -19,7 +14,6 @@
     "GameLootz",
     "Trading Card Game Store",
     "Vinticards",
-    "TcgReus",
     "PremiumCardSupply"
   ],
   "stock": {
@@ -124,7 +118,7 @@
     "tcgreus|booster_pack|OP-15": false,
     "tcgreus|booster_box|OP-15": false,
     "tcgreus|booster_box|OP-14": false,
-    "tcgreus|booster_box|OP-16": false,
+    "tcgreus|booster_box|OP-16": true,
     "tcgreus|booster_box|EB-03": false,
     "tcgreus|booster_box|OP-13": false,
     "tcgreus|booster_box|EB-02": false,
@@ -163,14 +157,14 @@
   "failures": {
     "intertoys": 0,
     "dracoon": 0,
-    "catchyourcards": 10,
+    "catchyourcards": 11,
     "pocketgames": 0,
     "spellenvariant": 0,
     "rarecards": 0,
     "optcg": 0,
-    "tf-robots": 10,
+    "tf-robots": 11,
     "speelkaartenwinkel": 0,
-    "gamemania": 10,
+    "gamemania": 11,
     "outpostbrussels": 0,
     "gamelootz": 0,
     "aition": 0,
