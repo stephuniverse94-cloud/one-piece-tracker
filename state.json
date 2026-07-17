@@ -13,7 +13,8 @@
     "Trading Card Game Store",
     "Vinticards",
     "Startspeler",
-    "TCG Ground"
+    "TCG Ground",
+    "PremiumCardSupply"
   ],
   "stock": {
     "intertoys|double_pack|Vol. 11": true,
@@ -157,25 +158,25 @@
   "failures": {
     "intertoys": 0,
     "dracoon": 0,
-    "catchyourcards": 46,
+    "catchyourcards": 47,
     "pocketgames": 0,
     "spellenvariant": 0,
     "rarecards": 0,
     "optcg": 0,
-    "tf-robots": 46,
+    "tf-robots": 47,
     "speelkaartenwinkel": 0,
-    "gamemania": 46,
+    "gamemania": 47,
     "outpostbrussels": 0,
     "gamelootz": 0,
     "aition": 0,
     "cardgameshop": 0,
     "tcgstore": 0,
     "vinticards": 0,
-    "maximus": 14,
+    "maximus": 15,
     "tspelgeweld": 0,
     "startspeler": 0,
     "tcg-ground": 0,
     "tcgreus": 0,
-    "premiumcardsupply": 1
+    "premiumcardsupply": 0
   }
 }
