@@ -2,15 +2,16 @@
   "alerted": {
     "gamelootz|booster_pack|OP-16": 8.49,
     "aition|double_pack|Vol. 3": 14.99,
-    "intertoys|booster_pack|OP-15": 6.99,
-    "intertoys|booster_pack|OP-16": 6.99
+    "maximus|booster_pack|OP-08": 7.99,
+    "maximus|booster_pack|OP-14": 7.99,
+    "maximus|booster_pack|OP-16": 8.99
   },
   "sold_out": [
     "PocketGames",
     "RareCards",
     "OPTCG",
     "Outpost Brussels",
-    "Trading Card Game Store",
+    "Startspeler",
     "TCG Ground",
     "TcgReus",
     "PremiumCardSupply"
@@ -134,7 +135,10 @@
     "vinticards|booster_box|OP-03": false,
     "vinticards|booster_box|OP-01": false,
     "vinticards|booster_box|OP-09": false,
-    "rarecards|booster_pack|OP-16": false
+    "rarecards|booster_pack|OP-16": false,
+    "maximus|booster_pack|OP-08": true,
+    "maximus|booster_pack|OP-07": true,
+    "maximus|booster_pack|OP-14": true
   },
   "lowest_price": {
     "double_pack|Vol. 11": 14.99,
@@ -146,7 +150,7 @@
     "booster_pack|OP-15": 6.99,
     "double_pack|Vol. 3": 14.99,
     "booster_box|OP-17": 109.99,
-    "booster_pack|OP-14": 8.45,
+    "booster_pack|OP-14": 7.99,
     "booster_box|OP-18": 109.99,
     "booster_box|OP-16": 104.99,
     "booster_box|OP-15": 104.99,
@@ -160,28 +164,29 @@
     "booster_box|OP-09": 94.99,
     "booster_box|OP-07": 99.99,
     "booster_box|OP-06": 99.99,
-    "booster_box|OP-08": 99.99
+    "booster_box|OP-08": 99.99,
+    "booster_pack|OP-08": 7.99
   },
   "failures": {
-    "intertoys": 0,
+    "intertoys": 1,
     "dracoon": 0,
-    "catchyourcards": 103,
+    "catchyourcards": 104,
     "pocketgames": 0,
     "spellenvariant": 0,
     "rarecards": 0,
     "optcg": 0,
-    "tf-robots": 103,
+    "tf-robots": 104,
     "speelkaartenwinkel": 0,
-    "gamemania": 103,
+    "gamemania": 104,
     "outpostbrussels": 0,
     "gamelootz": 0,
     "aition": 0,
-    "cardgameshop": 16,
-    "tcgstore": 0,
+    "cardgameshop": 17,
+    "tcgstore": 1,
     "vinticards": 0,
-    "maximus": 71,
+    "maximus": 0,
     "tspelgeweld": 0,
-    "startspeler": 2,
+    "startspeler": 0,
     "tcg-ground": 0,
     "tcgreus": 0,
     "premiumcardsupply": 0
