@@ -138,7 +138,8 @@
     "rarecards|booster_pack|OP-16": false,
     "maximus|booster_pack|OP-08": true,
     "maximus|booster_pack|OP-07": true,
-    "maximus|booster_pack|OP-14": true
+    "maximus|booster_pack|OP-14": true,
+    "pocketgames|double_pack|Vol. 10": false
   },
   "lowest_price": {
     "double_pack|Vol. 11": 14.99,
@@ -170,18 +171,18 @@
   "failures": {
     "intertoys": 0,
     "dracoon": 0,
-    "catchyourcards": 116,
+    "catchyourcards": 117,
     "pocketgames": 0,
-    "spellenvariant": 5,
+    "spellenvariant": 6,
     "rarecards": 0,
     "optcg": 0,
-    "tf-robots": 116,
+    "tf-robots": 117,
     "speelkaartenwinkel": 0,
-    "gamemania": 116,
+    "gamemania": 117,
     "outpostbrussels": 0,
     "gamelootz": 0,
     "aition": 0,
-    "cardgameshop": 29,
+    "cardgameshop": 30,
     "tcgstore": 0,
     "vinticards": 0,
     "maximus": 0,
