@@ -1,7 +1,8 @@
 {
   "alerted": {
     "gamelootz|booster_pack|OP-16": 8.49,
-    "intertoys|booster_pack|OP-17": 6.99
+    "intertoys|booster_pack|OP-17": 6.99,
+    "aition|double_pack|Vol. 3": 14.99
   },
   "sold_out": [
     "OPTCG",
@@ -181,24 +182,24 @@
   },
   "failures": {
     "intertoys": 0,
-    "dracoon": 54,
-    "catchyourcards": 31,
-    "pocketgames": 328,
-    "spellenvariant": 60,
+    "dracoon": 0,
+    "catchyourcards": 32,
+    "pocketgames": 329,
+    "spellenvariant": 61,
     "rarecards": 0,
     "optcg": 0,
-    "tf-robots": 975,
+    "tf-robots": 976,
     "speelkaartenwinkel": 0,
-    "gamemania": 975,
+    "gamemania": 976,
     "outpostbrussels": 0,
     "gamelootz": 0,
-    "aition": 1,
-    "cardgameshop": 2,
+    "aition": 0,
+    "cardgameshop": 3,
     "tcgstore": 0,
-    "vinticards": 97,
+    "vinticards": 98,
     "maximus": 0,
     "tspelgeweld": 0,
-    "startspeler": 798,
+    "startspeler": 799,
     "tcg-ground": 0,
     "tcgreus": 0,
     "premiumcardsupply": 0
