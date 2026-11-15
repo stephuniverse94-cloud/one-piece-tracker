@@ -1,13 +1,13 @@
 {
   "alerted": {
     "intertoys|booster_pack|OP-17": 6.99,
-    "aition|double_pack|Vol. 3": 14.99,
-    "catchyourcards|booster_box|OP-12": 119.95
+    "aition|double_pack|Vol. 3": 14.99
   },
   "sold_out": [
     "OPTCG",
     "Outpost Brussels",
     "GameLootz",
+    "Trading Card Game Store",
     "TCG Ground",
     "TcgReus",
     "PremiumCardSupply"
@@ -185,24 +185,24 @@
   },
   "failures": {
     "intertoys": 0,
-    "dracoon": 5,
-    "catchyourcards": 0,
-    "pocketgames": 344,
-    "spellenvariant": 76,
+    "dracoon": 6,
+    "catchyourcards": 1,
+    "pocketgames": 345,
+    "spellenvariant": 77,
     "rarecards": 0,
     "optcg": 0,
-    "tf-robots": 991,
-    "speelkaartenwinkel": 1,
-    "gamemania": 991,
+    "tf-robots": 992,
+    "speelkaartenwinkel": 0,
+    "gamemania": 992,
     "outpostbrussels": 0,
     "gamelootz": 0,
     "aition": 0,
     "cardgameshop": 0,
-    "tcgstore": 1,
-    "vinticards": 113,
+    "tcgstore": 0,
+    "vinticards": 114,
     "maximus": 0,
     "tspelgeweld": 0,
-    "startspeler": 814,
+    "startspeler": 815,
     "tcg-ground": 0,
     "tcgreus": 0,
     "premiumcardsupply": 0
